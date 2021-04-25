@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,10 +19,12 @@
 		9790C89E2634804600BE057D /* MovieDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9790C89D2634804600BE057D /* MovieDTO.swift */; };
 		9790C8A126348EE700BE057D /* MoviesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9790C8A026348EE700BE057D /* MoviesLoader.swift */; };
 		9790C8A52634A62000BE057D /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9790C8A42634A62000BE057D /* MovieListViewModel.swift */; };
+		97E32CB526355B4A00F86625 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 97E32CB426355B4A00F86625 /* SDWebImage */; };
+		97E32CB8263561D000F86625 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E32CB7263561D000F86625 /* MovieCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9790C875263462FC00BE057D /* MoviewDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviewDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9790C875263462FC00BE057D /* MovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9790C878263462FC00BE057D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9790C87C263462FC00BE057D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9790C87F263462FC00BE057D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -36,6 +38,7 @@
 		9790C89D2634804600BE057D /* MovieDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDTO.swift; sourceTree = "<group>"; };
 		9790C8A026348EE700BE057D /* MoviesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesLoader.swift; sourceTree = "<group>"; };
 		9790C8A42634A62000BE057D /* MovieListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModel.swift; sourceTree = "<group>"; };
+		97E32CB7263561D000F86625 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97E32CB526355B4A00F86625 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +56,7 @@
 		9790C86C263462FC00BE057D = {
 			isa = PBXGroup;
 			children = (
-				9790C877263462FC00BE057D /* MoviewDB */,
+				9790C877263462FC00BE057D /* MovieDB */,
 				9790C876263462FC00BE057D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,12 +64,12 @@
 		9790C876263462FC00BE057D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9790C875263462FC00BE057D /* MoviewDB.app */,
+				9790C875263462FC00BE057D /* MovieDB.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9790C877263462FC00BE057D /* MoviewDB */ = {
+		9790C877263462FC00BE057D /* MovieDB */ = {
 			isa = PBXGroup;
 			children = (
 				9790C8A42634A62000BE057D /* MovieListViewModel.swift */,
@@ -81,8 +85,9 @@
 				9790C89A26347FC300BE057D /* Movie.swift */,
 				9790C89D2634804600BE057D /* MovieDTO.swift */,
 				9790C8A026348EE700BE057D /* MoviesLoader.swift */,
+				97E32CB7263561D000F86625 /* MovieCell.swift */,
 			);
-			path = MoviewDB;
+			path = MovieDB;
 			sourceTree = "<group>";
 		};
 		9790C89426346B6900BE057D /* View */ = {
@@ -96,9 +101,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9790C874263462FC00BE057D /* MoviewDB */ = {
+		9790C874263462FC00BE057D /* MovieDB */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9790C889263462FE00BE057D /* Build configuration list for PBXNativeTarget "MoviewDB" */;
+			buildConfigurationList = 9790C889263462FE00BE057D /* Build configuration list for PBXNativeTarget "MovieDB" */;
 			buildPhases = (
 				9790C871263462FC00BE057D /* Sources */,
 				9790C872263462FC00BE057D /* Frameworks */,
@@ -108,9 +113,12 @@
 			);
 			dependencies = (
 			);
-			name = MoviewDB;
+			name = MovieDB;
+			packageProductDependencies = (
+				97E32CB426355B4A00F86625 /* SDWebImage */,
+			);
 			productName = MoviewDB;
-			productReference = 9790C875263462FC00BE057D /* MoviewDB.app */;
+			productReference = 9790C875263462FC00BE057D /* MovieDB.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -127,7 +135,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9790C870263462FC00BE057D /* Build configuration list for PBXProject "MoviewDB" */;
+			buildConfigurationList = 9790C870263462FC00BE057D /* Build configuration list for PBXProject "MovieDB" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -136,11 +144,14 @@
 				Base,
 			);
 			mainGroup = 9790C86C263462FC00BE057D;
+			packageReferences = (
+				97E32CB326355B4A00F86625 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			productRefGroup = 9790C876263462FC00BE057D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9790C874263462FC00BE057D /* MoviewDB */,
+				9790C874263462FC00BE057D /* MovieDB */,
 			);
 		};
 /* End PBXProject section */
@@ -171,6 +182,7 @@
 				9790C879263462FC00BE057D /* AppDelegate.swift in Sources */,
 				9790C89E2634804600BE057D /* MovieDTO.swift in Sources */,
 				9790C8A126348EE700BE057D /* MoviesLoader.swift in Sources */,
+				97E32CB8263561D000F86625 /* MovieCell.swift in Sources */,
 				9790C8A52634A62000BE057D /* MovieListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,12 +331,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MoviewDB/Info.plist;
+				INFOPLIST_FILE = MovieDB/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kashel.MoviewDB;
+				PRODUCT_BUNDLE_IDENTIFIER = kashel.MovieDB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -337,12 +349,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MoviewDB/Info.plist;
+				INFOPLIST_FILE = MovieDB/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kashel.MoviewDB;
+				PRODUCT_BUNDLE_IDENTIFIER = kashel.MovieDB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -352,7 +364,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9790C870263462FC00BE057D /* Build configuration list for PBXProject "MoviewDB" */ = {
+		9790C870263462FC00BE057D /* Build configuration list for PBXProject "MovieDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9790C887263462FE00BE057D /* Debug */,
@@ -361,7 +373,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9790C889263462FE00BE057D /* Build configuration list for PBXNativeTarget "MoviewDB" */ = {
+		9790C889263462FE00BE057D /* Build configuration list for PBXNativeTarget "MovieDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9790C88A263462FE00BE057D /* Debug */,
@@ -371,6 +383,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		97E32CB326355B4A00F86625 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.11.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		97E32CB426355B4A00F86625 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97E32CB326355B4A00F86625 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9790C86D263462FC00BE057D /* Project object */;
 }

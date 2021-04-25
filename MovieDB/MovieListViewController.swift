@@ -3,6 +3,7 @@
 //  
 
 import UIKit
+import SDWebImage
 
 class MovieListViewController: UIViewController {
   struct Constants {
@@ -74,6 +75,7 @@ extension MovieListViewController: UITableViewDataSource {
     var contentConfiguration = cell.defaultContentConfiguration()
     contentConfiguration.text = movie.title
     cell.contentConfiguration = contentConfiguration
+    cell.imageView?.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500//6goDkAD6J3br81YMQf0Gat8Bqjy.jpg")!, completed: nil)
     return cell
   }
 }
