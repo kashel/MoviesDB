@@ -16,6 +16,7 @@ class MovieListViewController: UIViewController {
   private let searchController = UISearchController(searchResultsController: nil)
   private let viewModel = MovieListViewModel()
   private var movies: [Movie] = []
+  private var loadingCellActive = false
   
   init(coordinator: MovieCoordinator) {
     self.coordinator = coordinator
@@ -34,6 +35,7 @@ class MovieListViewController: UIViewController {
   private func setup() {
     tableView.register(MovieCell.self, forCellReuseIdentifier: Constants.cellReuseIdentifier)
     tableView.dataSource = self
+    self.tableView.delegate = self
     bindViewModel()
     viewModel.loadMore()
   }
@@ -41,8 +43,9 @@ class MovieListViewController: UIViewController {
   private func bindViewModel() {
     viewModel.actions = { [unowned self] action in
       switch action {
-      case .dataLoaded(let newMovies):
-        self.movies.append(contentsOf: newMovies)
+      case .dataLoaded(let page):
+        self.loadingCellActive = page.totalPages > page.currentPage
+        self.movies.append(contentsOf: page.movies)
         DispatchQueue.main.async {
           tableView.reloadData()
         }
@@ -62,15 +65,23 @@ class MovieListViewController: UIViewController {
     definesPresentationContext = true
     tableView.pinToSafeArea(of: view)
   }
+  
+  private func isLoadingCellIndexPath(_ indexPath: IndexPath) -> Bool {
+      guard loadingCellActive else { return false }
+      return indexPath.row == movies.count
+  }
 }
 
 
 extension MovieListViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    movies.count
+    loadingCellActive ? movies.count + 1 : movies.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard !isLoadingCellIndexPath(indexPath) else {
+      return LoadingCell()
+    }
     let movie = movies[indexPath.row]
     guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellReuseIdentifier, for: indexPath) as?  MovieCell else {
       return UITableViewCell()
@@ -84,5 +95,12 @@ extension MovieListViewController: UITableViewDataSource {
 extension MovieListViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
     
+  }
+}
+
+extension MovieListViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+      guard isLoadingCellIndexPath(indexPath) else { return }
+      viewModel.loadMore()
   }
 }

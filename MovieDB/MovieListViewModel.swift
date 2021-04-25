@@ -6,7 +6,7 @@ import Foundation
 
 class MovieListViewModel {
   enum Actions {
-    case dataLoaded([Movie])
+    case dataLoaded(MoviesPage)
   }
   
   private var currentPage = 0
@@ -23,9 +23,9 @@ class MovieListViewModel {
       switch result {
         case .failure(let error):
           print(error)
-        case .success(let movies):
-          self.actions?(.dataLoaded(movies))
-          print(movies.count)
+        case .success(let page):
+          self.currentPage += 1
+          self.actions?(.dataLoaded(page))
       }
     }
   }

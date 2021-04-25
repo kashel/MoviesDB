@@ -19,17 +19,24 @@ struct MovieDTO: Decodable {
 }
 
 struct MoviesDTO: Decodable {
-  let page: Int
+  let page: Int?
+  let totalPages: Int?
   let movies: [MovieDTO]
   
   enum CodingKeys: String, CodingKey {
     case page
     case movies = "results"
+    case totalPages = "total_pages"
   }
 }
 
 class MovieMapper {
-  func map(_ dto: MovieDTO, imageBaseUrl: String) -> Movie {
+  func map(dto: MoviesDTO, imageBaseUrl: String) -> MoviesPage {
+    let movies = dto.movies.map{ map($0, imageBaseUrl: imageBaseUrl) }
+    return MoviesPage(movies: movies, currentPage: dto.page ?? 1, totalPages: dto.totalPages ?? 1)
+  }
+  
+  private func map(_ dto: MovieDTO, imageBaseUrl: String) -> Movie {
     let date = dateFormatter.date(from:dto.releaseDate ?? "")
     if (date == nil) {
       assertionFailure("server responded with data in unexpected format")

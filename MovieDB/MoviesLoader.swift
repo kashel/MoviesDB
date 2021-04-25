@@ -10,7 +10,7 @@ enum MoviesLoaderError: Error {
 }
 
 protocol MoviesLoader {
-  typealias Completed = (Result<[Movie], MoviesLoaderError>) -> Void
+  typealias Completed = (Result<MoviesPage, MoviesLoaderError>) -> Void
   func load(page: Int, completed: @escaping Completed)
 }
 
@@ -33,7 +33,7 @@ class NetworkMoviesLoader: MoviesLoader {
   private let imageUrl = "https://image.tmdb.org/t/p/w300/"
   private let apiKey = "1cc33b07c9aa5466f88834f7042c9258"
   
-  func load(page: Int, completed: @escaping (Result<[Movie], MoviesLoaderError>) -> Void) {
+  func load(page: Int, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void) {
     let url = makeDiscoverURL(page: page)
     
     let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {[weak self] (data, _, error) in
@@ -49,8 +49,8 @@ class NetworkMoviesLoader: MoviesLoader {
         return
       }
       
-      let movies = moviesDTO.movies.map{self.mapper.map($0, imageBaseUrl: self.imageUrl)}
-      completed(.success(movies))
+      let page = self.mapper.map(dto: moviesDTO, imageBaseUrl: self.imageUrl)
+      completed(.success(page))
     }
     task.resume()
   }

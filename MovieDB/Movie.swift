@@ -10,3 +10,9 @@ struct Movie {
   let overview: String
   let releaseDate: Date
 }
+
+struct MoviesPage {
+  let movies: [Movie]
+  let currentPage: Int
+  let totalPages: Int
+}
