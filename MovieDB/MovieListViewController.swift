@@ -15,9 +15,6 @@ class MovieListViewController: UIViewController {
   private let tableView = UITableView()
   private let searchController = UISearchController(searchResultsController: nil)
   private let viewModel = MovieListViewModel()
-  private var movies: [Movie] = []
-  private var searchResults: [Movie] = []
-  private var loadingCellActive = false
   
   init(coordinator: MovieCoordinator) {
     self.coordinator = coordinator
@@ -44,9 +41,7 @@ class MovieListViewController: UIViewController {
   private func bindViewModel() {
     viewModel.actions = { [unowned self] action in
       switch action {
-      case .dataLoaded(let page):
-        self.loadingCellActive = page.totalPages > page.currentPage
-        self.movies.append(contentsOf: page.movies)
+      case .dataLoaded:
         DispatchQueue.main.async {
           tableView.reloadData()
         }
@@ -71,33 +66,27 @@ class MovieListViewController: UIViewController {
 
 extension MovieListViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if isSearching {
-      return searchResults.count
-    }
-    return loadingCellActive ? movies.count + 1 : movies.count
+    return viewModel.rowsCount
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard !isLoadingCellIndexPath(indexPath) else {
       return LoadingCell()
     }
-    let movie = findMovie(for: indexPath)
+    let movie = viewModel.movies[indexPath.row]
     guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellReuseIdentifier, for: indexPath) as?  MovieCell else {
       return UITableViewCell()
     }
     cell.configure(with: MovieCellConfiguration(title: movie.title, imageURL: movie.imageUrl))
     return cell
   }
-  
-  private func findMovie(for indexPath: IndexPath) -> Movie {
-    isSearching ? searchResults[indexPath.row] : movies[indexPath.row]
-  }
 }
 
 
 extension MovieListViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
-    tableView.reloadData()
+    viewModel.search(phrase: searchController.searchBar.text)
+    viewModel.loadMore()
   }
 }
 
@@ -111,8 +100,8 @@ extension MovieListViewController: UITableViewDelegate {
 //MARK: - Pagination
 extension MovieListViewController {
   private func isLoadingCellIndexPath(_ indexPath: IndexPath) -> Bool {
-      guard !isSearching, loadingCellActive else { return false }
-      return indexPath.row == movies.count
+      guard viewModel.hasMoreDataToLoad else { return false }
+      return indexPath.row == viewModel.rowsCount - 1
   }
 }
 

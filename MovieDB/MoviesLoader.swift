@@ -12,7 +12,7 @@ enum MoviesLoaderError: Error {
 protocol MoviesLoader {
   typealias Completed = (Result<MoviesPage, MoviesLoaderError>) -> Void
   func load(page: Int, completed: @escaping Completed)
-  func search(phrase: String, page: Int, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void)
+  func search(phrase: String, page: Int, completed: @escaping Completed)
 }
 
 class NetworkMoviesLoader: MoviesLoader {
