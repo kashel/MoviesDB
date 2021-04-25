@@ -12,6 +12,7 @@ enum MoviesLoaderError: Error {
 protocol MoviesLoader {
   typealias Completed = (Result<MoviesPage, MoviesLoaderError>) -> Void
   func load(page: Int, completed: @escaping Completed)
+  func search(phrase: String, page: Int, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void)
 }
 
 class NetworkMoviesLoader: MoviesLoader {
@@ -26,6 +27,7 @@ class NetworkMoviesLoader: MoviesLoader {
     case apiKey = "api_key"
     case sort = "sort_by"
     case page
+    case query = "query"
   }
   
   //https://api.themoviedb.org/3/discover/movie?api_key=1cc33b07c9aa5466f88834f7042c9258&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate
@@ -33,9 +35,18 @@ class NetworkMoviesLoader: MoviesLoader {
   private let imageUrl = "https://image.tmdb.org/t/p/w300/"
   private let apiKey = "1cc33b07c9aa5466f88834f7042c9258"
   
+  
   func load(page: Int, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void) {
     let url = makeDiscoverURL(page: page)
-    
+    fetch(url: url, completed: completed)
+  }
+  
+  func search(phrase: String, page: Int, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void) {
+    let url = makeSearchURL(phrase: phrase, page: page)
+    fetch(url: url, completed: completed)
+  }
+  
+  private func fetch(url: URL, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void) {
     let task = URLSession.shared.dataTask(with: URLRequest(url: url)) {[weak self] (data, _, error) in
       guard let self = self else { return }
       
@@ -55,16 +66,19 @@ class NetworkMoviesLoader: MoviesLoader {
     task.resume()
   }
   
-  
-  private func makeDiscoverURL(page: Int) -> URL {
-    constructURL(path: "/3/discover/movie", params: makeDiscoverParams(page: page))
+  private func makeSearchURL(phrase: String, page: Int) -> URL {
+    let params: [QueryParam: String] = [.apiKey: apiKey,
+                                        .query: phrase,
+                                        .page: String(page),
+                                        .sort: "popularity.desc"]
+    return constructURL(path: "/3/search/movie", params: params)
   }
   
-  private func makeDiscoverParams(page: Int) -> [QueryParam: String] {
-    return [.apiKey: apiKey,
-            .page: String(page),
-            .sort: "popularity.desc"
-            ]
+  private func makeDiscoverURL(page: Int) -> URL {
+    let params: [QueryParam: String] = [.apiKey: apiKey,
+                                        .page: String(page),
+                                        .sort: "popularity.desc"]
+    return constructURL(path: "/3/discover/movie", params: params)
   }
   
   func constructURL(path: String, params: [QueryParam: String]) -> URL {
