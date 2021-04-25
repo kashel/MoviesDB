@@ -29,8 +29,7 @@ class NetworkMoviesLoader: MoviesLoader {
     case page
     case query = "query"
   }
-  
-  //https://api.themoviedb.org/3/discover/movie?api_key=1cc33b07c9aa5466f88834f7042c9258&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate
+
   private let baseUrl = "https://api.themoviedb.org/"
   private let imageUrl = "https://image.tmdb.org/t/p/w300/"
   private let apiKey = "1cc33b07c9aa5466f88834f7042c9258"

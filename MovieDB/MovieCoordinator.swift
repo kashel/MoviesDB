@@ -18,4 +18,8 @@ final class MovieCoordinator {
     self.window?.makeKeyAndVisible()
     return rootViewController
   }
+  
+  func showDetails(movie: Movie) {
+    rootViewController.pushViewController(MovieDetailsViewController(movie: movie), animated: true)
+  }
 }

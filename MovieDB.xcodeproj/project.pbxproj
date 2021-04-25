@@ -23,6 +23,7 @@
 		97E32CB8263561D000F86625 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E32CB7263561D000F86625 /* MovieCell.swift */; };
 		97E32CC12635629100F86625 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 97E32CC02635629100F86625 /* SnapKit */; };
 		97E32CCC263598ED00F86625 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E32CCB263598ED00F86625 /* LoadingCell.swift */; };
+		97E32CD02635F17600F86625 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E32CCF2635F17600F86625 /* MovieDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		9790C8A42634A62000BE057D /* MovieListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModel.swift; sourceTree = "<group>"; };
 		97E32CB7263561D000F86625 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		97E32CCB263598ED00F86625 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		97E32CCF2635F17600F86625 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				9790C8A026348EE700BE057D /* MoviesLoader.swift */,
 				97E32CB7263561D000F86625 /* MovieCell.swift */,
 				97E32CCB263598ED00F86625 /* LoadingCell.swift */,
+				97E32CCF2635F17600F86625 /* MovieDetailsViewController.swift */,
 			);
 			path = MovieDB;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				9790C8912634661200BE057D /* MovieListViewController.swift in Sources */,
 				9790C879263462FC00BE057D /* AppDelegate.swift in Sources */,
 				9790C89E2634804600BE057D /* MovieDTO.swift in Sources */,
+				97E32CD02635F17600F86625 /* MovieDetailsViewController.swift in Sources */,
 				9790C8A126348EE700BE057D /* MoviesLoader.swift in Sources */,
 				97E32CB8263561D000F86625 /* MovieCell.swift in Sources */,
 				9790C8A52634A62000BE057D /* MovieListViewModel.swift in Sources */,

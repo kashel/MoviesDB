@@ -95,6 +95,10 @@ extension MovieListViewController: UITableViewDelegate {
       guard isLoadingCellIndexPath(indexPath) else { return }
       viewModel.loadMore()
   }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    coordinator?.showDetails(movie: viewModel.movies[indexPath.row])
+  }
 }
 
 //MARK: - Pagination
