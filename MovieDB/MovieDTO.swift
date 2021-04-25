@@ -29,12 +29,12 @@ struct MoviesDTO: Decodable {
 }
 
 class MovieMapper {
-  func map(_ dto: MovieDTO) -> Movie {
+  func map(_ dto: MovieDTO, imageBaseUrl: String) -> Movie {
     let date = dateFormatter.date(from:dto.releaseDate ?? "")
     if (date == nil) {
       assertionFailure("server responded with data in unexpected format")
     }
-    let imageURL = dto.image != nil ? URL(string: dto.image!) : nil
+    let imageURL = dto.image != nil ? URL(string: imageBaseUrl + dto.image!) : nil
     return Movie(title: dto.title ?? "", imageUrl: imageURL, overview: dto.overview ?? "", releaseDate: date ?? Date())
   }
   

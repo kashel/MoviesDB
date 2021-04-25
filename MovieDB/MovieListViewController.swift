@@ -32,7 +32,7 @@ class MovieListViewController: UIViewController {
   }
   
   private func setup() {
-    tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellReuseIdentifier)
+    tableView.register(MovieCell.self, forCellReuseIdentifier: Constants.cellReuseIdentifier)
     tableView.dataSource = self
     bindViewModel()
     viewModel.loadMore()
@@ -51,6 +51,7 @@ class MovieListViewController: UIViewController {
   }
   
   private func setupView() {
+    tableView.separatorStyle = .none
     navigationItem.title = Constants.popularMovies
     view.backgroundColor = .systemBackground
     view.addSubview(tableView)
@@ -71,11 +72,10 @@ extension MovieListViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let movie = movies[indexPath.row]
-    let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellReuseIdentifier, for: indexPath)
-    var contentConfiguration = cell.defaultContentConfiguration()
-    contentConfiguration.text = movie.title
-    cell.contentConfiguration = contentConfiguration
-    cell.imageView?.sd_setImage(with: URL(string: "https://image.tmdb.org/t/p/w500//6goDkAD6J3br81YMQf0Gat8Bqjy.jpg")!, completed: nil)
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellReuseIdentifier, for: indexPath) as?  MovieCell else {
+      return UITableViewCell()
+    }
+    cell.configure(with: MovieCellConfiguration(title: movie.title, imageURL: movie.imageUrl))
     return cell
   }
 }

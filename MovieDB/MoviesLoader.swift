@@ -30,6 +30,7 @@ class NetworkMoviesLoader: MoviesLoader {
   
   //https://api.themoviedb.org/3/discover/movie?api_key=1cc33b07c9aa5466f88834f7042c9258&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate
   private let baseUrl = "https://api.themoviedb.org/"
+  private let imageUrl = "https://image.tmdb.org/t/p/w300/"
   private let apiKey = "1cc33b07c9aa5466f88834f7042c9258"
   
   func load(page: Int, completed: @escaping (Result<[Movie], MoviesLoaderError>) -> Void) {
@@ -48,7 +49,7 @@ class NetworkMoviesLoader: MoviesLoader {
         return
       }
       
-      let movies = moviesDTO.movies.map(self.mapper.map)
+      let movies = moviesDTO.movies.map{self.mapper.map($0, imageBaseUrl: self.imageUrl)}
       completed(.success(movies))
     }
     task.resume()

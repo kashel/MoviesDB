@@ -21,6 +21,7 @@
 		9790C8A52634A62000BE057D /* MovieListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9790C8A42634A62000BE057D /* MovieListViewModel.swift */; };
 		97E32CB526355B4A00F86625 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 97E32CB426355B4A00F86625 /* SDWebImage */; };
 		97E32CB8263561D000F86625 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E32CB7263561D000F86625 /* MovieCell.swift */; };
+		97E32CC12635629100F86625 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 97E32CC02635629100F86625 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97E32CB526355B4A00F86625 /* SDWebImage in Frameworks */,
+				97E32CC12635629100F86625 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +118,7 @@
 			name = MovieDB;
 			packageProductDependencies = (
 				97E32CB426355B4A00F86625 /* SDWebImage */,
+				97E32CC02635629100F86625 /* SnapKit */,
 			);
 			productName = MoviewDB;
 			productReference = 9790C875263462FC00BE057D /* MovieDB.app */;
@@ -146,6 +149,7 @@
 			mainGroup = 9790C86C263462FC00BE057D;
 			packageReferences = (
 				97E32CB326355B4A00F86625 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				97E32CBF2635629100F86625 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 9790C876263462FC00BE057D /* Products */;
 			projectDirPath = "";
@@ -393,6 +397,14 @@
 				version = 5.11.1;
 			};
 		};
+		97E32CBF2635629100F86625 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -400,6 +412,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 97E32CB326355B4A00F86625 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		97E32CC02635629100F86625 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97E32CBF2635629100F86625 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
