@@ -19,22 +19,25 @@ class MovieListViewModel {
   
   enum Actions {
     case dataLoaded
+    case fetchingFailed
   }
   
   private var currentState: State = .popularMovies
   private var stateData: [State: StateData] = [.popularMovies: .init(),
                                                .searchResults: .init()]
-  private let loader: MoviesLoader
+  private let moviesService: MoviesService
   var actions: ((Actions) -> Void)?
+  var errorOccured: Bool = false
   
-  init(loader: MoviesLoader = NetworkMoviesLoader(useCache: true)) {
-    self.loader = loader
+  init(moviesService: MoviesService = NetworkMoviesService(useLoadCache: true, useSearchCache: true)) {
+    self.moviesService = moviesService
   }
   
   func loadMore() {
+    errorOccured = false
     let currentPage = currentStateData.currentPage
     if case .popularMovies = currentState {
-      loader.load(page: currentPage + 1) { [weak self] (result) in
+      moviesService.load(page: currentPage + 1) { [weak self] (result) in
         guard let self = self else { return }
         self.onResult(result)
       }
@@ -42,7 +45,7 @@ class MovieListViewModel {
     }
     if case .searchResults = currentState {
       guard let phrase = stateData[currentState]!.phrase else { return }
-      loader.search(phrase: phrase, page: currentPage + 1) { [weak self] (result) in
+      moviesService.search(phrase: phrase, page: currentPage + 1) { [weak self] (result) in
         guard let self = self else { return }
         self.onResult(result)
       }
@@ -58,7 +61,10 @@ class MovieListViewModel {
   }
   
   var hasMoreDataToLoad: Bool {
-    currentStateData.totalPages > currentStateData.currentPage
+    guard !errorOccured else {
+      return false
+    }
+    return currentStateData.totalPages > currentStateData.currentPage
   }
   
   private var currentStateData: StateData {
@@ -67,8 +73,9 @@ class MovieListViewModel {
   
   private func onResult(_ result: Result<MoviesPage, MoviesLoaderError>) {
       switch result {
-        case .failure(let error):
-          print(error)
+        case .failure:
+          errorOccured = true
+          self.actions?(.fetchingFailed)
         case .success(let page):
           self.stateData[self.currentState]!.currentPage += 1
           self.stateData[self.currentState]!.movies.append(contentsOf: page.movies)

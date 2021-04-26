@@ -4,23 +4,16 @@
 
 import Foundation
 
-enum MoviesLoaderError: Error {
-  case parsing
-  case noData
-}
-
-protocol MoviesLoader {
-  typealias Completed = (Result<MoviesPage, MoviesLoaderError>) -> Void
-  func load(page: Int, completed: @escaping Completed)
-  func search(phrase: String, page: Int, completed: @escaping Completed)
-}
-
-class NetworkMoviesLoader: MoviesLoader {
+class NetworkMoviesService: MoviesService {
   private let mapper = MovieMapper()
-  private let useCache: Bool
+  private let useLoadCache: Bool
+  private let useSearchCache: Bool
+  private let loadCache = LoadMoviesCache()
+  private let searchCache = SearchMoviesCache()
   
-  init(useCache: Bool) {
-    self.useCache = useCache
+  init(useLoadCache: Bool, useSearchCache: Bool) {
+    self.useLoadCache = useLoadCache
+    self.useSearchCache = useSearchCache
   }
   
   enum QueryParam: String {
@@ -37,12 +30,40 @@ class NetworkMoviesLoader: MoviesLoader {
   
   func load(page: Int, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void) {
     let url = makeDiscoverURL(page: page)
-    fetch(url: url, completed: completed)
+    fetch(url: url) { [weak self] (result) in
+      guard let self = self, self.useLoadCache else {
+        completed(result)
+        return
+      }
+      switch result {
+      case .failure(let error) where error == .noData:
+        self.loadCache.load(page: page, completed: completed)
+      case .success(let moviesPage):
+        self.loadCache.cache(moviesPage: moviesPage)
+        completed(result)
+      default:
+        completed(result)
+      }
+    }
   }
   
   func search(phrase: String, page: Int, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void) {
     let url = makeSearchURL(phrase: phrase, page: page)
-    fetch(url: url, completed: completed)
+    fetch(url: url) { [weak self] (result) in
+      guard let self = self, self.useSearchCache else {
+        completed(result)
+        return
+      }
+      switch result {
+      case .failure(let error) where error == .noData:
+        self.searchCache.search(phrase: phrase, page: page, completed: completed)
+      case .success(let moviesPage):
+        self.searchCache.cache(moviesPage: moviesPage, phrase: phrase)
+        completed(result)
+      default:
+        completed(result)
+      }
+    }
   }
   
   private func fetch(url: URL, completed: @escaping (Result<MoviesPage, MoviesLoaderError>) -> Void) {

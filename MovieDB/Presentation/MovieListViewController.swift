@@ -40,12 +40,23 @@ class MovieListViewController: UIViewController {
   
   private func bindViewModel() {
     viewModel.actions = { [unowned self] action in
-      switch action {
-      case .dataLoaded:
-        DispatchQueue.main.async {
-          tableView.reloadData()
-        }
+      if case .fetchingFailed = action {
+        self.presentAlertController()
       }
+      DispatchQueue.main.async {
+        tableView.reloadData()
+      }
+    }
+  }
+  
+  private func presentAlertController() {
+    DispatchQueue.main.async {
+      let controller = UIAlertController(title: "Fetching failed", message: "Fetching data failed", preferredStyle: .alert)
+      controller.addAction(.init(title: "ok", style: .cancel, handler: nil))
+      controller.addAction(UIAlertAction(title: "retry", style: .default, handler: { [unowned self] (_) in
+        self.viewModel.loadMore()
+      }))
+      self.present(controller, animated: true, completion: nil)
     }
   }
   
@@ -63,7 +74,7 @@ class MovieListViewController: UIViewController {
   }
 }
 
-
+//MARK: - UITableViewDataSource
 extension MovieListViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return viewModel.rowsCount
@@ -82,14 +93,7 @@ extension MovieListViewController: UITableViewDataSource {
   }
 }
 
-
-extension MovieListViewController: UISearchResultsUpdating {
-  func updateSearchResults(for searchController: UISearchController) {
-    viewModel.search(phrase: searchController.searchBar.text)
-    viewModel.loadMore()
-  }
-}
-
+//MARK: - UITableViewDelegate
 extension MovieListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
       guard isLoadingCellIndexPath(indexPath) else { return }
@@ -98,6 +102,19 @@ extension MovieListViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     coordinator?.showDetails(movie: viewModel.movies[indexPath.row])
+  }
+}
+
+//MARK: - UISearchResultsUpdating
+extension MovieListViewController: UISearchResultsUpdating {
+  func updateSearchResults(for searchController: UISearchController) {
+    let searchPhrase = searchController.searchBar.text
+    viewModel.search(phrase: searchPhrase)
+    if let searchPhrase = searchPhrase, searchPhrase.count > 0 {
+      viewModel.loadMore()
+    } else {
+      tableView.reloadData()
+    }
   }
 }
 
